@@ -11,15 +11,10 @@ import java.util.Collections;
 import java.util.Map;
 
 @SpringBootApplication
-@RestController
 public class InboxerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(InboxerApplication.class, args);
     }
 
-    @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-    }
 }
