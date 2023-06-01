@@ -29,9 +29,9 @@ public class HomeController {
         }
         String userName = principal.getAttribute("name");
         Integer userId = principal.getAttribute("id");
-        List<Folder> folders = folderRepository.findAllByUserId(userId);
+        List<Folder> userFolders = folderRepository.findAllByUserId(userId);
         model.addAttribute("userName", userName);
-        model.addAttribute("folders", folders);
+        model.addAttribute("userFolders", userFolders);
         return "home";
     }
 
