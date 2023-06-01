@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<div th:fragment="folder-list (userName, userFolders)">
+    <h3 th:text="'Welcome, ' + ${userName}"></h3>
+    <a href="#" class="btn  btn-outline-success btn-lg"> Compose </a>
+    <div class="card">
+        <div class="card-header">
+            Default Labels
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li th:each="folder : ${userFolders}"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    <p th:text="${folder.label}"></p>
+                    <span class="badge rounded-pill" style="background-color: green">14</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
