@@ -19,6 +19,8 @@
         }
         header {
             grid-area: header;
+            margin-top: 25px;
+            margin-bottom: 45px;
         }
 
         nav {
@@ -72,13 +74,24 @@
 <body>
     <div class="container">
         <header>
+            <h3 th:text="'Welcome, ' + ${userName}"></h3>
             <!-- Header content -->
         </header>
         <nav>
             <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
         </nav>
         <main>
-            <!-- Main content -->
+            <div class="list-group">
+                <a th:each="item : ${emailItems}"
+                   href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
+                        <small th:text="${item.timeAgo}"></small>
+                    </div>
+                    <p class="mb-1" th:text="${item.to}"> List of recipients</p>
+<!--                    <small>And some small print.</small>-->
+                </a>
+            </div>
         </main>
 
         <aside>
