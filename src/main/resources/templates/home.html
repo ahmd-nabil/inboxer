@@ -74,7 +74,7 @@
 <body>
     <div class="container">
         <header>
-            <h3 th:text="'Welcome, ' + ${userName}"></h3>
+            <h3 th:text="'WELCOME, ' + ${userName}"></h3>
             <!-- Header content -->
         </header>
         <nav>
@@ -82,8 +82,8 @@
         </nav>
         <main>
             <div class="list-group">
-                <a th:each="item : ${emailItems}"
-                   href="#" class="list-group-item list-group-item-action">
+                <a th:href="@{'/emails/'+${item.key.createdAt}}" th:each="item : ${emailItems}"
+                    class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
                         <small th:text="${item.timeAgo}"></small>
