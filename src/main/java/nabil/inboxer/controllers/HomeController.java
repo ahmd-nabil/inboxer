@@ -24,11 +24,11 @@ public class HomeController {
     @GetMapping("/")
     public String homePage(Model model, @AuthenticationPrincipal OAuth2User principal) {
         System.out.println(principal);
-        if(principal == null || !StringUtils.hasText(principal.getAttribute("name"))) {
+        if(principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
             return "index";
         }
         String userName = principal.getAttribute("name");
-        Integer userId = principal.getAttribute("id");
+        String userId = principal.getAttribute("login");
         List<Folder> userFolders = folderRepository.findAllByUserId(userId);
         model.addAttribute("userName", userName);
         model.addAttribute("userFolders", userFolders);

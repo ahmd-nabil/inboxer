@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository
 public interface FolderRepository extends CassandraRepository<Folder, String> {
-    List<Folder> findAllByUserId(Integer id);
+    List<Folder> findAllByUserId(String id);
 }
