@@ -1,6 +1,7 @@
 package nabil.inboxer.controllers;
 
 import lombok.RequiredArgsConstructor;
+import nabil.inboxer.mappers.RecipientsMapper;
 import nabil.inboxer.services.ComposeService;
 import nabil.inboxer.services.MainService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -25,14 +23,18 @@ public class ComposeController {
 
     private final MainService mainService;
     private final ComposeService composeService;
+    private final RecipientsMapper mapper;
     @GetMapping
-    public String getComposePage(@AuthenticationPrincipal OAuth2User principal, Model model) {
+    public String getComposePage(@AuthenticationPrincipal OAuth2User principal, Model model,
+                                 @RequestParam(name = "to", defaultValue = "") String recipients,
+                                 @RequestParam(name = "subject", defaultValue = "") String subject) {
         if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
             return "redirect:/";
         }
         mainService.addUserNameToModel(model, principal.getAttribute("name"));
         mainService.addUserFoldersToModel(model, principal.getAttribute("login"));
-
+        model.addAttribute("recipients", mapper.convertListToString(mapper.convertStringToDistinctList(recipients)));
+        model.addAttribute("subject", subject);
         return "compose-page";
     }
 
