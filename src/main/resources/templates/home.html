@@ -92,7 +92,9 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <a th:href="@{'/emails/'+${item.key.createdAt}}" th:each="item : ${emailItems}"
+                        <a th:href="@{'/emails/'+${item.key.createdAt}}"
+                           th:each="item : ${emailItems}"
+                           th:classappend="${!item.isRead? 'fw-bold':''}"
                            class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>

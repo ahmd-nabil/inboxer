@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nabil.inboxer.mappers.RecipientsMapper;
 import nabil.inboxer.services.ComposeService;
 import nabil.inboxer.services.MainService;
+import nabil.inboxer.unread_email_stats.UnreadEmailStatsService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class ComposeController {
     private final MainService mainService;
     private final ComposeService composeService;
     private final RecipientsMapper mapper;
+    private final UnreadEmailStatsService unreadEmailStatsService;
     @GetMapping
     public String getComposePage(@AuthenticationPrincipal OAuth2User principal, Model model,
                                  @RequestParam(name = "to", defaultValue = "") String recipients,
@@ -35,6 +37,7 @@ public class ComposeController {
         mainService.addUserFoldersToModel(model, principal.getAttribute("login"));
         model.addAttribute("recipients", mapper.convertListToString(mapper.convertStringToDistinctList(recipients)));
         model.addAttribute("subject", subject);
+        model.addAttribute("unreadStats", unreadEmailStatsService.getUnreadStats(principal.getAttribute("login")));
         return "compose-page";
     }
 

@@ -8,6 +8,7 @@ import nabil.inboxer.email_list.EmailListItemRepository;
 import nabil.inboxer.emails.Email;
 import nabil.inboxer.emails.EmailRepository;
 import nabil.inboxer.mappers.RecipientsMapper;
+import nabil.inboxer.unread_email_stats.UnreadEmailStatsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class ComposeService {
     private final EmailRepository emailRepository;
     private final EmailListItemRepository emailListItemRepository;
     private final RecipientsMapper recipientsMapper;
+    private final UnreadEmailStatsRepository unreadEmailStatsRepository;
+
     public void sendEmail(String from, String recipients, String subject, String content) {
         List<String> to = recipientsMapper.convertStringToDistinctList(recipients);
         // when sending email we need to create Email view, and EmailListItem(inbox) for each recipientId and EmailListItem(sent) for the sender
@@ -34,11 +37,13 @@ public class ComposeService {
         emailRepository.save(email);
 
         EmailListItem senderItem = getEmailListItem(from, "sent", email, to, subject);
+        senderItem.setRead(true);
         emailListItemRepository.save(senderItem);
 
         email.getTo().forEach(toId -> {
             EmailListItem emailListItem = getEmailListItem(toId, "inbox", email, to, subject);
             emailListItemRepository.save(emailListItem);
+            unreadEmailStatsRepository.onEmailAdded(toId, "inbox");
         });
     }
 

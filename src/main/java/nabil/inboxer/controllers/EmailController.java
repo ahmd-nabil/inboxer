@@ -5,6 +5,7 @@ import nabil.inboxer.emails.Email;
 import nabil.inboxer.emails.EmailRepository;
 import nabil.inboxer.mappers.RecipientsMapper;
 import nabil.inboxer.services.MainService;
+import nabil.inboxer.unread_email_stats.UnreadEmailStatsService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class EmailController {
     private final MainService mainService;
     private final EmailRepository emailRepository;
     private final RecipientsMapper recipientsMapper;
+    private final UnreadEmailStatsService unreadEmailStatsService;
 
     @GetMapping("/{id}")
     public String getEmail(
@@ -43,11 +45,13 @@ public class EmailController {
         if(emailOptional.isEmpty() || (!emailOptional.get().getFrom().equals(userId) && !emailOptional.get().getTo().contains(userId))) {
             return "redirect:/";  // TODO: informative error page
         }
+        unreadEmailStatsService.onReadEmail(emailOptional.get(), userId);
         mainService.addUserNameToModel(model, userName);
         mainService.addUserFoldersToModel(model, userId);
         model.addAttribute("email", emailOptional.get());
         String recipients = recipientsMapper.convertListToString(emailOptional.get().getTo());
         model.addAttribute("recipients", recipients);
+        model.addAttribute("unreadStats", unreadEmailStatsService.getUnreadStats(userId));
         return "email";
     }
 

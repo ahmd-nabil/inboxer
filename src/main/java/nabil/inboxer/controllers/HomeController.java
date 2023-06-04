@@ -2,6 +2,7 @@ package nabil.inboxer.controllers;
 
 import lombok.RequiredArgsConstructor;
 import nabil.inboxer.services.MainService;
+import nabil.inboxer.unread_email_stats.UnreadEmailStatsService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 
     private final MainService mainService;
-
+    private final UnreadEmailStatsService unreadEmailStatsService;
     @GetMapping("/")
     public String homePage(Model model, @AuthenticationPrincipal OAuth2User principal, @RequestParam(defaultValue = "inbox") String label) {
         System.out.println(principal);
@@ -31,6 +32,7 @@ public class HomeController {
         mainService.addUserFoldersToModel(model, userId);
         mainService.addEmailListToModel(model, userId, label);
         model.addAttribute("activeLabel", label);
+        model.addAttribute("unreadStats", unreadEmailStatsService.getUnreadStats(userId));
         return "home";
     }
 
