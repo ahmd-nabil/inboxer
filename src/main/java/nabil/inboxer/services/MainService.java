@@ -34,10 +34,13 @@ public class MainService {
         model.addAttribute("emailItems", emailListItems);
     }
 
-    public void addUserFoldersToModel(Model model, String userName, String userId) {
+    public void addUserFoldersToModel(Model model, String userId) {
         List<Folder> userFolders = folderRepository.findAllByUserId(userId);
-        model.addAttribute("userName", userName);
         model.addAttribute("userFolders", userFolders);
+    }
+
+    public void addUserNameToModel(Model model, String userName) {
+        model.addAttribute("userName", userName);
     }
 
 }

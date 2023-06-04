@@ -27,7 +27,8 @@ public class HomeController {
         }
         String userName = principal.getAttribute("name");
         String userId = principal.getAttribute("login");
-        mainService.addUserFoldersToModel(model, userName, userId);
+        mainService.addUserNameToModel(model, userName);
+        mainService.addUserFoldersToModel(model, userId);
         mainService.addEmailListToModel(model, userId, label);
         model.addAttribute("activeLabel", label);
         return "home";

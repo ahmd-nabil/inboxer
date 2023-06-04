@@ -42,7 +42,8 @@ public class EmailController {
         if(emailOptional.isEmpty() || (!emailOptional.get().getFrom().equals(userId) && !emailOptional.get().getTo().contains(userId))) {
             return "redirect:/";  // TODO: informative error page
         }
-        mainService.addUserFoldersToModel(model, userName, userId);
+        mainService.addUserNameToModel(model, userName);
+        mainService.addUserFoldersToModel(model, userId);
         model.addAttribute("email", emailOptional.get());
         String recipients = Strings.join(emailOptional.get().getTo(), ',');
         model.addAttribute("recipients", recipients);
