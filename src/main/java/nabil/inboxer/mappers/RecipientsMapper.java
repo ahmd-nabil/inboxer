@@ -1,6 +1,6 @@
 package nabil.inboxer.mappers;
 
-import org.apache.logging.log4j.util.Strings;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -14,10 +14,10 @@ import java.util.List;
 public class RecipientsMapper {
 
     public String convertListToString(List<String>recipientsIds) {
-        return Strings.join(recipientsIds, ',');
+        return String.join(", ", recipientsIds);
     }
 
-    public List<String> convertStringToList(String recipientsIds) {
+    public List<String> convertStringToDistinctList(String recipientsIds) {
         return Arrays.stream(recipientsIds.split(",")).map(String::strip).filter(StringUtils::hasText).distinct().toList();
     }
 

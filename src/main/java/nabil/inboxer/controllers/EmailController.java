@@ -3,8 +3,8 @@ package nabil.inboxer.controllers;
 import lombok.RequiredArgsConstructor;
 import nabil.inboxer.emails.Email;
 import nabil.inboxer.emails.EmailRepository;
+import nabil.inboxer.mappers.RecipientsMapper;
 import nabil.inboxer.services.MainService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -27,6 +27,7 @@ public class EmailController {
 
     private final MainService mainService;
     private final EmailRepository emailRepository;
+    private final RecipientsMapper recipientsMapper;
 
     @GetMapping("/{id}")
     public String getEmail(
@@ -45,7 +46,7 @@ public class EmailController {
         mainService.addUserNameToModel(model, userName);
         mainService.addUserFoldersToModel(model, userId);
         model.addAttribute("email", emailOptional.get());
-        String recipients = Strings.join(emailOptional.get().getTo(), ',');
+        String recipients = recipientsMapper.convertListToString(emailOptional.get().getTo());
         model.addAttribute("recipients", recipients);
         return "email";
     }

@@ -22,7 +22,7 @@ public class ComposeService {
     private final EmailListItemRepository emailListItemRepository;
     private final RecipientsMapper recipientsMapper;
     public void sendEmail(String from, String recipients, String subject, String content) {
-        List<String> to = recipientsMapper.convertStringToList(recipients);
+        List<String> to = recipientsMapper.convertStringToDistinctList(recipients);
         // when sending email we need to create Email view, and EmailListItem(inbox) for each recipientId and EmailListItem(sent) for the sender
         Email email = Email.builder()
                 .id(Uuids.timeBased())
