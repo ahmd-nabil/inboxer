@@ -33,4 +33,7 @@ public class EmailListItem {
 
     @Transient
     private String timeAgo;
+
+    @Transient
+    private String toAsString;
 }

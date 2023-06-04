@@ -98,7 +98,7 @@
                                 <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
                                 <small th:text="${item.timeAgo}"></small>
                             </div>
-                            <p class="mb-1" th:text="${item.to}"> List of recipients</p>
+                            <p class="mb-1" th:text="${item.toAsString}"> List of recipients</p>
                             <!--                    <small>And some small print.</small>-->
                         </a>
                     </ul>
