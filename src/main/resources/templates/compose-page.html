@@ -11,6 +11,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"></script>
     <style>
         .container {
             display: grid;
@@ -78,41 +80,49 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h3 th:text="'WELCOME, ' + ${userName}"></h3>
-            <!-- Header content -->
-        </header>
-        <nav>
-            <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
-        </nav>
-        <main>
+<div class="container">
+    <header>
+        <h3 th:text="'WELCOME, ' + ${userName}"></h3>
+        <!-- Header content -->
+    </header>
+    <nav>
+        <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
+    </nav>
+    <main>
+        <form action="#" th:action="@{/compose}" th:object="${newEmail}" method="post">
             <div class="card">
-                <div th:text="${activeLabel}" class="card-header">
+                <div class="card-header">
+                    <h5>New Message </h5>
+                    <!-- Email Recipients -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="to" >to      </span>
+                        <input type="text" class="form-control" placeholder="username1 username2 username3 ..." aria-describedby="to">
+                    </div>
+                    <!-- Subject -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="subject">subject </span>
+                        <input type="text" class="form-control" placeholder="Subject" aria-describedby="subject">
+                    </div>
                 </div>
                 <div class="card-body">
-                    <ul class="list-group">
-                        <a th:href="@{'/emails/'+${item.key.createdAt}}" th:each="item : ${emailItems}"
-                           class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
-                                <small th:text="${item.timeAgo}"></small>
-                            </div>
-                            <p class="mb-1" th:text="${item.to}"> List of recipients</p>
-                            <!--                    <small>And some small print.</small>-->
-                        </a>
-                    </ul>
+                    <!-- Email Content -->
+                    <div class="mb-3">
+                        <textarea class="form-control" id="content" rows="15" placeholder="Message " style="margin-bottom: 10px"></textarea>
+                    </div>
                 </div>
             </div>
-        </main>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-block mb-4">Send</button>
+        </form>
+    </main>
 
-        <aside>
-            <!-- Sidebar / Ads -->
-        </aside>
+    <aside>
+        <!-- Sidebar / Ads -->
+    </aside>
 
-        <footer>
-            <!-- Footer content -->
-        </footer>
-    </div>
+    <footer>
+        <!-- Footer content -->
+    </footer>
+</div>
 </body>
 </html>

@@ -6,7 +6,7 @@
 
 <div th:fragment="folder-list (userName, userFolders)">
     <div>
-        <a href="#" class="btn  btn-outline-success" style="width:100%;display:block;"> Compose </a>
+        <a th:href="@{/compose}" class="btn  btn-outline-success" style="width:100%;display:block;"> Compose </a>
     </div>
     <div class="card">
         <div class="card-header">
