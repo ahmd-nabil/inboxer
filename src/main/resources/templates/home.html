@@ -81,16 +81,22 @@
             <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
         </nav>
         <main>
-            <div class="list-group">
-                <a th:href="@{'/emails/'+${item.key.createdAt}}" th:each="item : ${emailItems}"
-                    class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
-                        <small th:text="${item.timeAgo}"></small>
-                    </div>
-                    <p class="mb-1" th:text="${item.to}"> List of recipients</p>
-<!--                    <small>And some small print.</small>-->
-                </a>
+            <div class="card">
+                <div th:text="${activeLabel}" class="card-header">
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <a th:href="@{'/emails/'+${item.key.createdAt}}" th:each="item : ${emailItems}"
+                           class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" th:text="${item.subject}">List item subject</h5>
+                                <small th:text="${item.timeAgo}"></small>
+                            </div>
+                            <p class="mb-1" th:text="${item.to}"> List of recipients</p>
+                            <!--                    <small>And some small print.</small>-->
+                        </a>
+                    </ul>
+                </div>
             </div>
         </main>
 
