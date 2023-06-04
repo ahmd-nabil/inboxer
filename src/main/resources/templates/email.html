@@ -84,7 +84,7 @@
     <!-- Header content -->
   </header>
   <nav>
-    <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
+    <div th:insert="~{components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})}"></div>
   </nav>
   <main>
     <div class="card">
@@ -94,6 +94,14 @@
         <p class="card-title" th:text="'to: ' + ${recipients}"></p>
         <hr>
         <p class="card-text" th:text="${email.content}">With supporting text below as a natural lead-in to additional content.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <a class="btn btn-outline-success me-md-2" type="button"
+            th:href="@{'/compose?to=' + ${email.from} + '&subject=' + ${email.subject}}"
+          >Reply</a>
+          <a class="btn btn-outline-success" type="button"
+            th:href="@{'/compose?to=' + ${email.from} + ',' + ${recipients} +'&subject=' + ${email.subject}}"
+          >Reply All</a>
+        </div>
       </div>
     </div>
   </main>

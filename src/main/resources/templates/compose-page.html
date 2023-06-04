@@ -86,7 +86,7 @@
         <!-- Header content -->
     </header>
     <nav>
-        <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
+        <div th:insert="~{components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})}"></div>
     </nav>
     <main>
         <form action="#" th:action="@{/compose}" method="post">
@@ -96,12 +96,12 @@
                     <!-- Email Recipients -->
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="to" >to      </span>
-                        <input type="text" class="form-control" placeholder="username1, username2, ..." aria-describedby="to" name="recipients">
+                        <input th:value="${recipients}" type="text" class="form-control" placeholder="username1, username2, ..." aria-describedby="to" name="recipients">
                     </div>
                     <!-- Subject -->
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="subject">subject </span>
-                        <input type="text" class="form-control" placeholder="Subject" aria-describedby="subject" name="subject">
+                        <input th:value="${subject}" type="text" class="form-control" placeholder="Subject" aria-describedby="subject" name="subject">
                     </div>
                 </div>
                 <div class="card-body">

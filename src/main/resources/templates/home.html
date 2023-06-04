@@ -84,7 +84,7 @@
             <!-- Header content -->
         </header>
         <nav>
-            <div th:insert="components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})"></div>
+            <div th:insert="~{components/folder-list :: folder-list (userName = ${userName}, userFolders=${userFolders})}"></div>
         </nav>
         <main>
             <div class="card">
