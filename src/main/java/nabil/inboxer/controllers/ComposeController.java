@@ -1,32 +1,56 @@
 package nabil.inboxer.controllers;
 
 import lombok.RequiredArgsConstructor;
-import nabil.inboxer.emails.Email;
+import nabil.inboxer.services.ComposeService;
 import nabil.inboxer.services.MainService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Ahmed Nabil
  */
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/compose")
 public class ComposeController {
 
     private final MainService mainService;
-    @GetMapping("/compose")
+    private final ComposeService composeService;
+    @GetMapping
     public String getComposePage(@AuthenticationPrincipal OAuth2User principal, Model model) {
         if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
             return "redirect:/";
         }
         mainService.addUserNameToModel(model, principal.getAttribute("name"));
         mainService.addUserFoldersToModel(model, principal.getAttribute("login"));
-        model.addAttribute("newEmail", new Email());
+
         return "compose-page";
     }
+
+    @PostMapping
+    public ModelAndView sendEmail(@RequestBody MultiValueMap<String, String> form,
+                                  @AuthenticationPrincipal OAuth2User principal, Model model) {
+        if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
+            return new ModelAndView("redirect:/");
+        }
+
+        composeService.sendEmail(
+                principal.getAttribute("login"),
+                form.getFirst("recipients"),
+                form.getFirst("subject"),
+                form.getFirst("content")
+        );
+        return new ModelAndView("redirect:/");
+    }
+
 
 }
