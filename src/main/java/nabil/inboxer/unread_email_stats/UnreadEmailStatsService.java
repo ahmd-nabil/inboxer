@@ -19,17 +19,17 @@ public class UnreadEmailStatsService {
 
     private final EmailListItemRepository emailListItemRepository;
     private final UnreadEmailStatsRepository unreadEmailStatsRepository;
-    public void onReadEmail(Email email, String userId) {
+    public void onReadEmail(Email email, String userId, String label) {
         EmailListItemKey key = EmailListItemKey
                 .builder()
                 .userId(userId)
-                .label("inbox")
+                .label(label)
                 .createdAt(email.getId()).build();
         EmailListItem item = emailListItemRepository.findById(key).orElseThrow(RuntimeException::new);
         if(!item.isRead()) {
             item.setRead(true);
             emailListItemRepository.save(item);
-            unreadEmailStatsRepository.onEmailRead(key.getUserId(), "inbox");
+            unreadEmailStatsRepository.onEmailRead(key.getUserId(), label);
         }
     }
 

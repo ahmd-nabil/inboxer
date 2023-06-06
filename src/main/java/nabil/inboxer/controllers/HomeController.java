@@ -30,6 +30,7 @@ public class HomeController {
             folderRepository.save(Folder.builder().userId(userId).label("inbox").color("blue").build());
             folderRepository.save(Folder.builder().userId(userId).label("sent").color("gray").build());
         }
+        mainService.addLabelToModel(model, label);
         mainService.addUserNameToModel(model, userName);
         mainService.addUserFoldersToModel(model, userId);
         mainService.addEmailListToModel(model, userId, label);

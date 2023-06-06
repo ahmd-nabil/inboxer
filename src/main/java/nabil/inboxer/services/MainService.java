@@ -45,4 +45,7 @@ public class MainService {
         model.addAttribute("userName", userName);
     }
 
+    public void addLabelToModel(Model model, String label) {
+        model.addAttribute("label", label);
+    }
 }
