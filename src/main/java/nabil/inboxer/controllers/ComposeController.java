@@ -30,9 +30,6 @@ public class ComposeController {
     public String getComposePage(@AuthenticationPrincipal OAuth2User principal, Model model,
                                  @RequestParam(name = "to", defaultValue = "") String recipients,
                                  @RequestParam(name = "subject", defaultValue = "") String subject) {
-        if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
-            return "redirect:/";
-        }
         mainService.addUserNameToModel(model, principal.getAttribute("name"));
         mainService.addUserFoldersToModel(model, principal.getAttribute("login"));
         model.addAttribute("recipients", mapper.convertListToString(mapper.convertStringToDistinctList(recipients)));

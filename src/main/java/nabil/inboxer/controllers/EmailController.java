@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +35,6 @@ public class EmailController {
             @PathVariable UUID id,
             @AuthenticationPrincipal OAuth2User principal,
             Model model) {
-        if(principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
-            return "redirect:/";
-        }
         String userName = principal.getAttribute("name");
         String userId = principal.getAttribute("login");
         Optional<Email> emailOptional = emailRepository.findById(id);
