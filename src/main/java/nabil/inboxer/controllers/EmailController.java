@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -33,6 +34,7 @@ public class EmailController {
     @GetMapping("/{id}")
     public String getEmail(
             @PathVariable UUID id,
+            @RequestParam(name = "label") String label,
             @AuthenticationPrincipal OAuth2User principal,
             Model model) {
         String userName = principal.getAttribute("name");
@@ -41,7 +43,7 @@ public class EmailController {
         if(emailOptional.isEmpty() || (!emailOptional.get().getFrom().equals(userId) && !emailOptional.get().getTo().contains(userId))) {
             return "redirect:/";  // TODO: informative error page
         }
-        unreadEmailStatsService.onReadEmail(emailOptional.get(), userId);
+        unreadEmailStatsService.onReadEmail(emailOptional.get(), userId, label);
         mainService.addUserNameToModel(model, userName);
         mainService.addUserFoldersToModel(model, userId);
         model.addAttribute("email", emailOptional.get());
